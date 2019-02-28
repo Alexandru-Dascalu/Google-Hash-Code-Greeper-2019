@@ -1,10 +1,14 @@
-import javax.swing.text.html.HTML;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
+import java.util.List;
 
 public class Algorithm {
 
     public static int interestScore(Slide s1, Slide s2) {
+
+        ArrayList<Slide> slides = new ArrayList<>();
+        slides.add(s1);
+        slides.add(s2);
 
         ArrayList<String> allTags = new ArrayList<>();
 
@@ -23,13 +27,17 @@ public class Algorithm {
         }
 
         //Populating commonTag
-        for (String tag : allTags) {
-            commonTags.add(tag);
-        }
+        commonTags.addAll(allTags);
 
+//        for(int i =0; i< s1.getTags().size(); i++){
+//            s2 contains the s1 tag
+//            if(s2.getTags().indexOf(s1.getTags().get(i)) != -1){
+//                s1
+//            }
+//        }
 
-        for (Photo pic : s1.photos) {
-
+        for (Slide slide : slides) {
+            slide.getTags();
         }
 
         s1NOTs2.addAll(

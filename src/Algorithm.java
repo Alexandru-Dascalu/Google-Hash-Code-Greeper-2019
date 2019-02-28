@@ -3,6 +3,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Algorithm {
 
@@ -29,13 +30,10 @@ public class Algorithm {
         for (String tag : allTags) {
             if (s1.tags.contains(tag) && s2.tags.contains(tag)) {
                 commonTags.add(tag);
-                break;
             } else if (s1.tags.contains(tag)) {
                 s1NOTs2.add(tag);
-                break;
             } else if (s2.tags.contains(tag)) {
                 s2NOTs1.add(tag);
-                break;
             }
         }
 
@@ -73,6 +71,35 @@ public class Algorithm {
                 .collect(Collectors.toList());
     }
 
+    public static void sortTags(Slide slide) {
+        Collections.sort(slide.tags);
+    }
+
+    public static List<Slide> execute(Slide slide, List<Slide> allSlides, int limit) {
+        List<Slide> mostSimilarToMe = mostSimilarTo(slide, allSlides)
+                .stream().limit(limit).collect(Collectors.toList());
+
+        List<Slide> mostDifferentFromMe = mostDifferentFromMe(slide, allSlides)
+                .stream().limit(limit).collect(Collectors.toList());
+
+        List<Slide> imMostDifferentFrom = imMostDifferentFrom(slide, allSlides)
+                .stream().limit(limit).collect(Collectors.toList());
+
+        ArrayList<Slide> all = new ArrayList<>();
+        all.addAll(mostSimilarToMe);
+        all.addAll(mostDifferentFromMe);
+        all.addAll(imMostDifferentFrom);
+
+        return all.stream().sorted(Comparator.comparingInt(s -> interestScore(s, slide))).collect(Collectors.toList());
+    }
+
+    public static List<Slide> execute(Slide slide, List<Slide> allSlides) {
+        return execute(slide, allSlides, 100);
+    }
+
+
+    //==============================PRIVATE============================================
+
     private static long numberOfCommonTags(Slide s1, Slide s2) {
         return s1.tags.stream()
                 .filter(tag -> s1.tags.contains(tag) && s2.tags.contains(tag)).count();
@@ -90,10 +117,6 @@ public class Algorithm {
 
     private static boolean haveCommonTags(Slide s1, Slide s2) {
         return s1.tags.stream().anyMatch(tag -> s2.tags.contains(tag));
-    }
-
-    public static void sortTags(Slide slide) {
-        Collections.sort(slide.tags);
     }
 
 }

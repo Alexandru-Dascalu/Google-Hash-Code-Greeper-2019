@@ -40,11 +40,6 @@ public class Main {
             // write algorithm here
             ArrayList<Slide> slides = getSlides(photos);
 
-            for(int i=0; i<slides.size(); i++){
-                for(int j=i+1; j<slides.size(); j++){
-
-                }
-            }
 
 
 

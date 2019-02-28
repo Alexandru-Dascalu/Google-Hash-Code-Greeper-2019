@@ -1,14 +1,15 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws Exception {
         ArrayList<Photo> photos = new ArrayList<>();
-        String[] inputFiles = {"a.txt","b.txt","c.txt","d.txt","e.txt"};
-        String[] outputFiles = {"a_out.txt","b_out.txt","c_out.txt","d_out.txt","e_out.txt"};
-        
+        String[] inputFiles = {"a.txt", "b.txt", "c.txt", "d.txt", "e.txt"};
+        String[] outputFiles = {"a_out.txt", "b_out.txt", "c_out.txt", "d_out.txt", "e_out.txt"};
+
         for (int k = 0; k < 5; k++) {
             // reader
             Scanner in = new Scanner(new File(inputFiles[k]));
@@ -19,7 +20,6 @@ public class Main {
             in.nextLine();
             for (int i = 0; i < n; i++) {
                 String readTags = in.nextLine();
-                System.out.println(readTags);
                 String[] split = readTags.split(" ");
 
                 String orientation = split[0];
@@ -40,69 +40,82 @@ public class Main {
             // write algorithm here
             ArrayList<Slide> slides = getSlides(photos);
 
+            ArrayList<Slide> answer = algorithm1(slides);
+
+            PrintWriter pw = new PrintWriter(outputFiles[k]);
+
+            pw.println(answer.size());
+            for(Slide s : answer){
+                for(Photo p : s.photos){
+                    pw.print(p.ID + " ");
+                }
+                pw.println();
+            }
+
+            pw.close();
 
         }
     }
-    
-    public static ArrayList<Slide> getSlides(ArrayList<Photo> photos)
-    {
+
+    public static ArrayList<Slide> getSlides(ArrayList<Photo> photos) {
         ArrayList<Slide> slides = new ArrayList<>();
-        
-        for(int i=0; i<photos.size(); i++)
-        {
-            if(photos.get(i).type == Photo.Orientation.H)
-            {
+
+        for (int i = 0; i < photos.size(); i++) {
+            if (photos.get(i).type == Photo.Orientation.H) {
                 slides.add(new Slide(photos.get(i)));
-            }
-            else
-            {
-                Slide newSlide = PhotoChooser.bestVPhotoPair(photos.get(i), photos.subList(i+1, photos.size()));
-                if(newSlide!=null)
-                {
+            } else {
+                Slide newSlide = PhotoChooser.bestVPhotoPair(photos.get(i), photos.subList(i + 1, photos.size()));
+                if (newSlide != null) {
                     slides.add(newSlide);
                 }
             }
         }
-        
+
         return slides;
     }
 
-        public ArrayList<Slide> algorithm(ArrayList<Slide> slides){
-            ArrayList<Slide> answer = new ArrayList<>();
+    public static ArrayList<Slide> algorithm1(ArrayList<Slide> slides) {
+        ArrayList<Slide> answer = new ArrayList<>();
 
-            Slide currentSlide = slides.get(0);
-            int maxtags = slides.get(0).tags.size();
+        Slide currentSlide = slides.get(0);
+        int maxtags = slides.get(0).tags.size();
 
-            // get the slide with most tags to be first
-            for(int i=1; i< slides.size(); i++){
-                if(slides.get(i).tags.size() > maxtags){
-                    maxtags = slides.get(i).tags.size();
-                    currentSlide = slides.get(i);
+        // get the slide with most tags to be first
+        for (int i = 1; i < slides.size(); i++) {
+            if (slides.get(i).tags.size() > maxtags) {
+                maxtags = slides.get(i).tags.size();
+                currentSlide = slides.get(i);
+            }
+        }
+
+        answer.add(currentSlide);
+        slides.remove(currentSlide);
+
+
+        int numSlides = slides.size();
+
+        while (slides.size() > 0) {
+            if(slides.size() % 10000 == 0){
+                System.out.println(slides.size());
+            }
+
+            Slide bestNext = null;
+            int nextPoints = -1;
+
+            for (Slide s : slides) {
+                if (Algorithm.interestScore(currentSlide, s) > nextPoints) {
+                    bestNext = s;
+                    nextPoints = Algorithm.interestScore(currentSlide, s);
                 }
             }
 
-            answer.add(currentSlide);
-            slides.remove(currentSlide);
+            answer.add(bestNext);
+            currentSlide = bestNext;
+            slides.remove(bestNext);
 
-
-            int numSlides = slides.size();
-
-            while(slides.size()>0){
-               Slide bestNext = null;
-               int nextPoints = -1;
-
-               for(Slide s: slides){
-                   if(Algorithm.interestScore(currentSlide, s) > nextPoints){
-                       bestNext = s;
-                       nextPoints = Algorithm.interestScore(currentSlide,s);
-                   }
-               }
-
-
-            }
-
-
-            return answer;
         }
+
+        return answer;
+    }
 
 }

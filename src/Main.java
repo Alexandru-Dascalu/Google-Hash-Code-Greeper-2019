@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Hello {
+public class Main {
     public static void main(String[] args) {
         ArrayList<Photo> photos = new ArrayList<>();
 

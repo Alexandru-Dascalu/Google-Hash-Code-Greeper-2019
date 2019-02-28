@@ -43,7 +43,7 @@ public class Algorithm {
         s2NOTs1.addAll(allTags.stream().filter(tag -> !s1.getTags().contains(tag) && s2.getTags().contains(tag)
         ).collect(Collectors.toList()));
 
-
+        //This is the algorithm
         return Math.min(Math.min(s2NOTs1.size(), s1NOTs2.size()), commonTags.size());
     }
 

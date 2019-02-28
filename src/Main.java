@@ -41,8 +41,11 @@ public class Main {
             // write algorithm here
             photos.sort(null);
             ArrayList<Slide> slides = getSlides(photos);
+            System.out.println("Slides");
 
-            List<Slide> answer = Algorithm.execute(slides);
+            ArrayList<Slide> answer = algorithm2(slides);
+            System.out.println("After Algorithm");
+
 
             PrintWriter pw = new PrintWriter(outputFiles[k]);
 
@@ -127,8 +130,8 @@ public class Main {
         slides.get(0).alreadyUsed = true;
         Slide currentSlide = answer.get(0);
         int slideIndex = 0;
-        int CHECK_NEXT_NUMBER = 100;
-
+        int CHECK_NEXT_NUMBER = 300;
+  
         while (true) {
 
             if(answer.size() % 1000 == 0) {
@@ -147,8 +150,8 @@ public class Main {
                     bestScore =  Algorithm.interestScore(currentSlide, slides.get(i));
                 }
             }
-
-
+            
+           
 
             if (!found) {
                 for(Slide s : slides){

@@ -52,23 +52,26 @@ public class Algorithm {
         return Math.min(Math.min(s2NOTs1.size(), s1NOTs2.size()), commonTags.size());
     }
 
-    public static List<Slide> mostSimilarTo(Slide slide, List<Slide> allSlides) {
+    public static List<Slide> mostSimilarTo(Slide slide, List<Slide> allSlides, int limit) {
         return allSlides.stream().filter(s -> haveCommonTags(s, slide))
                 .sorted(Comparator.comparingLong(s2 -> numberOfCommonTags(slide, s2)))
+                .limit(limit)
                 .collect(Collectors.toList());
     }
 
     // Other has more different tags from me
-    public static List<Slide> mostDifferentFromMe(Slide slide, List<Slide> allSlides) {
+    public static List<Slide> mostDifferentFromMe(Slide slide, List<Slide> allSlides, int limit) {
         return allSlides.stream().filter(s -> notHaveAnyCommonTags(s, slide))
                 .sorted(Comparator.comparingLong(s2 -> numberOfCommonTags(s2, slide)))
+                .limit(limit)
                 .collect(Collectors.toList());
     }
 
     // I have more different tags than other
-    public static List<Slide> imMostDifferentFrom(Slide slide, List<Slide> allSlides) {
+    public static List<Slide> imMostDifferentFrom(Slide slide, List<Slide> allSlides, int limit) {
         return allSlides.stream().filter(s -> notHaveAnyCommonTags(s, slide))
                 .sorted(Comparator.comparingLong(s2 -> numberOfCommonTags(slide, s2)))
+                .limit(limit)
                 .collect(Collectors.toList());
     }
 
@@ -77,13 +80,14 @@ public class Algorithm {
     }
 
     public static List<Slide> execute(Slide slide, List<Slide> allSlides, int limit) {
-        List<Slide> mostSimilarToMe = mostSimilarTo(slide, allSlides)
+        System.out.println("Executing at " + System.currentTimeMillis() + " for Slide " + slide.id);
+        List<Slide> mostSimilarToMe = mostSimilarTo(slide, allSlides, limit)
                 .stream().limit(limit).collect(Collectors.toList());
 
-        List<Slide> mostDifferentFromMe = mostDifferentFromMe(slide, allSlides)
+        List<Slide> mostDifferentFromMe = mostDifferentFromMe(slide, allSlides, limit)
                 .stream().limit(limit).collect(Collectors.toList());
 
-        List<Slide> imMostDifferentFrom = imMostDifferentFrom(slide, allSlides)
+        List<Slide> imMostDifferentFrom = imMostDifferentFrom(slide, allSlides, limit)
                 .stream().limit(limit).collect(Collectors.toList());
 
         ArrayList<Slide> all = new ArrayList<>();
@@ -91,11 +95,13 @@ public class Algorithm {
         all.addAll(mostDifferentFromMe);
         all.addAll(imMostDifferentFrom);
 
+
+        System.out.println("Finished executing at " + System.currentTimeMillis() + " for Slide " + slide.id);
         return all.stream().sorted(Comparator.comparingInt(s -> interestScore(s, slide))).collect(Collectors.toList());
     }
 
     public static List<Slide> execute(Slide slide, List<Slide> allSlides) {
-        return execute(slide, allSlides, 100);
+        return execute(slide, allSlides, 1);
     }
 
     public static Slide perfectSlide(Slide slide, List<Slide> allSlides) {

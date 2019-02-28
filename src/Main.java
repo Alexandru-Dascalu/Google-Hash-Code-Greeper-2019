@@ -41,8 +41,6 @@ public class Main {
             ArrayList<Slide> slides = getSlides(photos);
 
 
-
-
         }
     }
     
@@ -65,5 +63,43 @@ public class Main {
         
         return slides;
     }
-        
+
+        public ArrayList<Slide> algorithm(ArrayList<Slide> slides){
+            ArrayList<Slide> answer = new ArrayList<>();
+
+            Slide currentSlide = slides.get(0);
+            int maxtags = slides.get(0).tags.size();
+
+            // get the slide with most tags to be first
+            for(int i=1; i< slides.size(); i++){
+                if(slides.get(i).tags.size() > maxtags){
+                    maxtags = slides.get(i).tags.size();
+                    currentSlide = slides.get(i);
+                }
+            }
+
+            answer.add(currentSlide);
+            slides.remove(currentSlide);
+
+
+            int numSlides = slides.size();
+
+            while(slides.size()>0){
+               Slide bestNext = null;
+               int nextPoints = -1;
+
+               for(Slide s: slides){
+                   if(Algorithm.interestScore(currentSlide, s) > nextPoints){
+                       bestNext = s;
+                       nextPoints = Algorithm.interestScore(currentSlide,s);
+                   }
+               }
+
+
+            }
+
+
+            return answer;
+        }
+
 }

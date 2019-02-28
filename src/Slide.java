@@ -3,12 +3,16 @@ import java.util.ArrayList;
 public class Slide {
     public ArrayList<Photo> photos;
     public ArrayList<String> tags;
+    public int id;
+    public static int currentID = 0;
 
     public Slide(Photo p1) {
         photos = new ArrayList<>();
         photos.add(p1);
 
         tags = this.getTags();
+        id = currentID;
+        currentID++;
     }
 
     public Slide(Photo p1, Photo p2) {

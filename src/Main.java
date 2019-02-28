@@ -6,7 +6,6 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-
         String[] inputFiles = {"a.txt", "b.txt", "c.txt", "d.txt", "e.txt"};
         String[] outputFiles = {"a_out.txt", "b_out.txt", "c_out.txt", "d_out.txt", "e_out.txt"};
 
@@ -39,15 +38,16 @@ public class Main {
 
             // get slides hopefully
             // write algorithm here
+            photos.sort(null);
             ArrayList<Slide> slides = getSlides(photos);
 
-            ArrayList<Slide> answer = algorithm3(slides);
+            //ArrayList<Slide> answer = algorithm1(slides);
 
             PrintWriter pw = new PrintWriter(outputFiles[k]);
 
-            pw.println(answer.size());
-            for (Slide s : answer) {
-                for (Photo p : s.photos) {
+            pw.println(slides.size());
+            for(Slide s : slides){
+                for(Photo p : s.photos){
                     pw.print(p.ID + " ");
                 }
                 pw.println();
@@ -96,6 +96,9 @@ public class Main {
         int numSlides = slides.size();
 
         while (slides.size() > 0) {
+            if(slides.size() % 10000 == 0){
+                System.out.println(slides.size());
+            }
 
             Slide bestNext = null;
             int nextPoints = -1;

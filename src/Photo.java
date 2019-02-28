@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Photo {
+public class Photo implements Comparable<Photo>{
 
     enum Orientation {
         H, V;
@@ -14,6 +14,11 @@ public class Photo {
         this.ID = ID;
         this.type = type;
         this.tags = tags;
+    }
+    
+    public int compareTo(Photo other)
+    {
+        return (other.tags.size() - this.tags.size());
     }
 }
 

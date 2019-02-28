@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -97,6 +98,14 @@ public class Algorithm {
         return execute(slide, allSlides, 100);
     }
 
+    public static Slide perfectSlide(Slide slide, List<Slide> allSlides) {
+        return execute(slide, allSlides).get(0);
+    }
+
+    public static List<Slide> execute(List<Slide> allSlides) {
+        return allSlides.stream()
+                .map(slide -> perfectSlide(slide, allSlides)).collect(Collectors.toList());
+    }
 
     //==============================PRIVATE============================================
 

@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -41,12 +42,12 @@ public class Main {
             photos.sort(null);
             ArrayList<Slide> slides = getSlides(photos);
 
-            //ArrayList<Slide> answer = algorithm1(slides);
+            List<Slide> answer = Algorithm.execute(slides);
 
             PrintWriter pw = new PrintWriter(outputFiles[k]);
 
-            pw.println(slides.size());
-            for(Slide s : slides){
+            pw.println(answer.size());
+            for(Slide s : answer){
                 for(Photo p : s.photos){
                     pw.print(p.ID + " ");
                 }

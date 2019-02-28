@@ -41,7 +41,7 @@ public class PhotoChooser
     public static Slide bestVPhotoPair(Photo vPhoto, List<Photo> photos)
     {
         Photo bestPick = null;
-        int max = Integer.MIN_VALUE;
+        int min = Integer.MAX_VALUE;
         
         if(vPhoto.type == Photo.Orientation.H)
         {
@@ -52,10 +52,25 @@ public class PhotoChooser
         {
             if(!p.equals(vPhoto) && p.type == Photo.Orientation.V)
             {
-                int tagUnion = tagUnion(vPhoto, p);
+                /*int tagUnion = tagUnion(vPhoto, p);
                 if(max < tagUnion)
                 {
                     max = tagUnion;
+                    bestPick = p;
+                }*/
+                
+                int disjointUnion = tagDisjoint(vPhoto, p);
+                
+                if(disjointUnion == 0 )
+                {
+                    bestPick = p;
+                    photos.remove(bestPick);
+                    Slide newSlide = new Slide(vPhoto, bestPick);
+                    return newSlide;
+                }
+                else if(min > disjointUnion)
+                {
+                    min = disjointUnion;
                     bestPick = p;
                 }
             }
@@ -71,6 +86,28 @@ public class PhotoChooser
         return newSlide;
     }
 
+    private static int tagDisjoint(Photo photo1, Photo photo2)
+    {
+        int disjointSize = 0;
+        
+        HashSet<String> union = new HashSet<>();
+        
+        for(String tag: photo1.tags)
+        {
+            union.add(tag);
+        }
+        
+        for(String tag: photo2.tags)
+        {
+            if(union.contains(tag))
+            {
+                disjointSize++;
+            }
+        }
+        
+        return disjointSize;
+    }
+    
     private static int tagUnion(Photo photo1, Photo photo2)
     {
         int unionSize = 0;
@@ -79,11 +116,8 @@ public class PhotoChooser
         
         for(String tag: photo1.tags)
         {
-            if(!union.contains(tag))
-            {
-                unionSize++;
-                union.add(tag);
-            }
+            unionSize++;
+            union.add(tag);
         }
         
         for(String tag: photo2.tags)

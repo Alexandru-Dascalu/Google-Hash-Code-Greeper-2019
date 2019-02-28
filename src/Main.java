@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        ArrayList<Photo> photos = new ArrayList<>();
+        
         String[] inputFiles = {"a.txt", "b.txt", "c.txt", "d.txt", "e.txt"};
         String[] outputFiles = {"a_out.txt", "b_out.txt", "c_out.txt", "d_out.txt", "e_out.txt"};
 
@@ -14,6 +14,7 @@ public class Main {
             // reader
             Scanner in = new Scanner(new File(inputFiles[k]));
 
+            ArrayList<Photo> photos = new ArrayList<>();
             System.out.println(inputFiles[k]);
             int n = in.nextInt();
 
@@ -38,14 +39,15 @@ public class Main {
 
             // get slides hopefully
             // write algorithm here
+            photos.sort(null);
             ArrayList<Slide> slides = getSlides(photos);
 
-            ArrayList<Slide> answer = algorithm1(slides);
+            //ArrayList<Slide> answer = algorithm1(slides);
 
             PrintWriter pw = new PrintWriter(outputFiles[k]);
 
-            pw.println(answer.size());
-            for(Slide s : answer){
+            pw.println(slides.size());
+            for(Slide s : slides){
                 for(Photo p : s.photos){
                     pw.print(p.ID + " ");
                 }
@@ -61,6 +63,7 @@ public class Main {
         ArrayList<Slide> slides = new ArrayList<>();
 
         for (int i = 0; i < photos.size(); i++) {
+            //System.out.println(i);
             if (photos.get(i).type == Photo.Orientation.H) {
                 slides.add(new Slide(photos.get(i)));
             } else {
@@ -95,10 +98,7 @@ public class Main {
         int numSlides = slides.size();
 
         while (slides.size() > 0) {
-            if(slides.size() % 10000 == 0){
-                System.out.println(slides.size());
-            }
-
+        System.out.println(slides.size());
             Slide bestNext = null;
             int nextPoints = -1;
 

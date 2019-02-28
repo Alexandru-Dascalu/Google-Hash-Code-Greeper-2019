@@ -9,7 +9,7 @@ public class Main {
         String[] inputFiles = {"a.txt","b.txt","c.txt","d.txt","e.txt"};
         String[] outputFiles = {"a_out.txt","b_out.txt","c_out.txt","d_out.txt","e_out.txt"};
         
-        for (int k = 0; k < 1; k++) {
+        for (int k = 0; k < 5; k++) {
             // reader
             Scanner in = new Scanner(new File(inputFiles[k]));
 
@@ -46,40 +46,6 @@ public class Main {
                 }
                 System.out.println();
             }
-            
-            /*photos = new ArrayList<>();
-            ArrayList<String> mata = new ArrayList<>();
-            mata.add("cat");
-            mata.add("beach");
-            mata.add("sun");
-            photos.add(new Photo(Photo.Orientation.H, 0, mata));
-            
-            
-            mata = new ArrayList<>();
-            mata.add("dog");
-            mata.add("shaorma");
-            mata.add("Romania");
-            photos.add(new Photo(Photo.Orientation.H, 1, mata));
-           
-            mata = new ArrayList<>();
-            mata.add("cat");
-            mata.add("lalala");
-            mata.add("unguri");
-            photos.add(new Photo(Photo.Orientation.V, 2, mata));
-
-            mata = new ArrayList<>();
-            mata.add("cajjjjt");
-            mata.add("lalala");
-            mata.add("unguri");
-            photos.add(new Photo(Photo.Orientation.V, 3, mata));
-            
-            mata = new ArrayList<>();
-            mata.add("cajjjjt");
-            mata.add("lalala");
-            mata.add("undfdssuri");
-            photos.add(new Photo(Photo.Orientation.V, 4, mata));
-            
-            ArrayList<Slide> slides = getSlides(photos);*/
             
         }
     }

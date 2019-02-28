@@ -57,7 +57,10 @@ public class Main {
             else
             {
                 Slide newSlide = PhotoChooser.bestVPhotoPair(photos.get(i), photos.subList(i+1, photos.size()));
-                slides.add(newSlide);
+                if(newSlide!=null)
+                {
+                    slides.add(newSlide);
+                }
             }
         }
         

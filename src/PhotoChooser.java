@@ -61,8 +61,11 @@ public class PhotoChooser
             }
         }
         
+        if(bestPick == null)
+        {
+            return null;
+        }
         photos.remove(bestPick);
-        System.out.println(max);
         
         Slide newSlide = new Slide(vPhoto, bestPick);
         return newSlide;

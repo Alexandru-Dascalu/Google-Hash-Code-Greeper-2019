@@ -7,9 +7,10 @@ public class Photo {
     }
 
     public Orientation type;
-    ArrayList<String> tags;
+    public int ID;
+    public ArrayList<String> tags;
 
-    public Photo(Orientation type, ArrayList<String> tags) {
+    public Photo(Orientation type, int ID,  ArrayList<String> tags) {
         this.type = type;
         this.tags = tags;
     }

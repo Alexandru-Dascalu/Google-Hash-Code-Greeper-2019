@@ -23,7 +23,15 @@ public class Hello {
             }
 
             photos.add(new Photo(orientation == "H" ? Photo.Orientation.H : Photo.Orientation.V,
+                    i,
                     tags));
+        }
+
+        for(Photo p : photos){
+            System.out.println(p.ID + " " + p.type);
+            for(String s : p.tags){
+                System.out.print(s + " ");
+            }
         }
 
     }

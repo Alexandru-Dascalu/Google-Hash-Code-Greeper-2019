@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.stream.Collectors;
-import java.util.List;
 
 public class Algorithm {
 
@@ -19,15 +18,12 @@ public class Algorithm {
         ArrayList<String> s2NOTs1 = new ArrayList<>();
 
         //Populating allTags
-        for (Photo pic : s1.photos) {
-            allTags.addAll(pic.tags);
-        }
-        for (Photo pic : s2.photos) {
-            allTags.addAll(pic.tags);
+        for (Slide slide : slides) {
+            for (Photo pic : slide.photos) {
+                allTags.addAll(pic.tags);
+            }
         }
 
-        //Populating commonTag
-        commonTags.addAll(allTags);
 
 //        for(int i =0; i< s1.getTags().size(); i++){
 //            s2 contains the s1 tag
@@ -36,9 +32,9 @@ public class Algorithm {
 //            }
 //        }
 
-        for (Slide slide : slides) {
-            slide.getTags();
-        }
+        commonTags.addAll(
+                allTags.stream().filter(tag -> s1.getTags().contains(tag) && s2.getTags().contains(tag)
+                ).collect(Collectors.toList()));
 
         s1NOTs2.addAll(
                 allTags.stream().filter(tag -> s1.getTags().contains(tag) && !s2.getTags().contains(tag)
@@ -48,9 +44,7 @@ public class Algorithm {
         ).collect(Collectors.toList()));
 
 
-//        allTags.stream().filter(tag -> )
-
-        return 0;
+        return Math.min(Math.min(s2NOTs1.size(), s1NOTs2.size()), commonTags.size());
     }
 
 }

@@ -6,15 +6,14 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        
         String[] inputFiles = {"a.txt", "b.txt", "c.txt", "d.txt", "e.txt"};
         String[] outputFiles = {"a_out.txt", "b_out.txt", "c_out.txt", "d_out.txt", "e_out.txt"};
 
         for (int k = 0; k < 5; k++) {
+            ArrayList<Photo> photos = new ArrayList<>();
             // reader
             Scanner in = new Scanner(new File(inputFiles[k]));
 
-            ArrayList<Photo> photos = new ArrayList<>();
             System.out.println(inputFiles[k]);
             int n = in.nextInt();
 
@@ -63,7 +62,6 @@ public class Main {
         ArrayList<Slide> slides = new ArrayList<>();
 
         for (int i = 0; i < photos.size(); i++) {
-            //System.out.println(i);
             if (photos.get(i).type == Photo.Orientation.H) {
                 slides.add(new Slide(photos.get(i)));
             } else {
@@ -98,7 +96,10 @@ public class Main {
         int numSlides = slides.size();
 
         while (slides.size() > 0) {
-        System.out.println(slides.size());
+            if(slides.size() % 10000 == 0){
+                System.out.println(slides.size());
+            }
+
             Slide bestNext = null;
             int nextPoints = -1;
 
@@ -116,6 +117,65 @@ public class Main {
         }
 
         return answer;
+    }
+
+    public static ArrayList<Slide> algorithm2(ArrayList<Slide> slides) {
+        ArrayList<Slide> answer = new ArrayList<>();
+
+        Slide currentSlide = slides.get(0);
+        int maxtags = slides.get(0).tags.size();
+
+        // get the slide with most tags to be first
+        for (int i = 1; i < slides.size(); i++) {
+            if (slides.get(i).tags.size() > maxtags) {
+                maxtags = slides.get(i).tags.size();
+                currentSlide = slides.get(i);
+            }
+        }
+
+        answer.add(currentSlide);
+//        slides.remove(currentSlide);
+        currentSlide.alreadyUsed = true;
+
+        while (true) {
+
+            if (slides.size() % 1000 == 0) {
+                System.out.println(slides.size());
+            }
+
+            Slide next = null;
+            boolean found = false;
+
+            for (Slide s : slides) {
+                if (!s.alreadyUsed && Algorithm.interestScore(currentSlide, s) > 0) {
+                    next = s;
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) {
+                for(Slide s : slides){
+                    if(!s.alreadyUsed){
+                        next = s;
+                        break;
+                    }
+                }
+            }
+            if(next == null) break;
+
+            answer.add(next);
+            next.alreadyUsed = true;
+            currentSlide = next;
+            //slides.remove(next);
+
+        }
+
+        return answer;
+    }
+
+    public static ArrayList<Slide> algorithm3(ArrayList<Slide> slides) {
+       return slides;
     }
 
 }

@@ -5,6 +5,7 @@ public class Slide {
     public ArrayList<String> tags;
     public int id;
     public static int currentID = 0;
+    public boolean alreadyUsed;
 
     public Slide(Photo p1) {
         photos = new ArrayList<>();
@@ -13,6 +14,7 @@ public class Slide {
         tags = this.getTags();
         id = currentID;
         currentID++;
+        alreadyUsed = false;
     }
 
     public Slide(Photo p1, Photo p2) {

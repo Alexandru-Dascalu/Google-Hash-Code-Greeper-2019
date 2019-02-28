@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 
 public class PhotoChooser 
@@ -37,7 +38,7 @@ public class PhotoChooser
         }
     }
     
-    public static Slide bestVPhotoPair(Photo vPhoto, ArrayList<Photo> photos)
+    public static Slide bestVPhotoPair(Photo vPhoto, List<Photo> photos)
     {
         Photo bestPick = null;
         int max = Integer.MIN_VALUE;
@@ -60,6 +61,7 @@ public class PhotoChooser
             }
         }
         
+        photos.remove(bestPick);
         System.out.println(max);
         
         Slide newSlide = new Slide(vPhoto, bestPick);

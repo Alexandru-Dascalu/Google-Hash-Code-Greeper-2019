@@ -31,9 +31,7 @@ public class Main {
                     tags.add(split[j]);
                 }
 
-                photos
-                    .add(new Photo(orientation.equals("H") ? Photo.Orientation.H
-                            : Photo.Orientation.V,
+                photos.add(new Photo(orientation.equals("H") ? Photo.Orientation.H : Photo.Orientation.V,
                         i, tags));
             }
 
@@ -50,6 +48,26 @@ public class Main {
             }
 
         }
+    }
+    
+    public static ArrayList<Slide> getSlides(ArrayList<Photo> photos)
+    {
+        ArrayList<Slide> slides = new ArrayList<>();
+        
+        for(int i=0; i<photos.size(); i++)
+        {
+            if(photos.get(i).type == Photo.Orientation.H)
+            {
+                slides.add(new Slide(photos.get(i)));
+            }
+            else
+            {
+                Slide newSlide = PhotoChooser.bestVPhotoPair(photos.get(i), photos.subList(i+1, photos.size()));
+                slides.add(newSlide);
+            }
+        }
+        
+        return slides;
     }
         
 }

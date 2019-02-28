@@ -133,19 +133,20 @@ public class Main {
   
         while (true) {
 
-            /*if(answer.size() % 1000 == 0) {
+            if(answer.size() % 1000 == 0) {
                 System.out.println(answer.size());
-            }*/
+            }
 
+            int bestScore = -1;
             Slide next = null;
             boolean found = false;
 
             for(int i=slideIndex; i< Math.min(slides.size(), slideIndex+CHECK_NEXT_NUMBER); i++) {
-                if(!slides.get(i).alreadyUsed && Algorithm.interestScore(currentSlide, slides.get(i)) > 0) {
+                if(!slides.get(i).alreadyUsed && Algorithm.interestScore(currentSlide, slides.get(i)) > bestScore) {
                     next = slides.get(i);
                     found = true;
                     slideIndex = i;
-                    break;
+                    bestScore =  Algorithm.interestScore(currentSlide, slides.get(i));
                 }
             }
             

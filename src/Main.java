@@ -127,7 +127,7 @@ public class Main {
         slides.get(0).alreadyUsed = true;
         Slide currentSlide = answer.get(0);
         int slideIndex = 0;
-        int CHECK_NEXT_NUMBER = 100;
+        int CHECK_NEXT_NUMBER = 250;
 
         while (true) {
 

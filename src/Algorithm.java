@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -53,11 +54,38 @@ public class Algorithm {
     }
 
     public static List<Slide> mostSimilarTo(Slide slide, List<Slide> allSlides) {
+        return allSlides.stream().filter(s -> haveCommonTags(s, slide))
+                .sorted(Comparator.comparingLong(s2 -> numberOfCommonTags(slide, s2)))
+                .collect(Collectors.toList());
+    }
 
+    // Other has more different tags from me
+    public static List<Slide> mostDifferentFromMe(Slide slide, List<Slide> allSlides) {
+        return allSlides.stream().filter(s -> notHaveAnyCommonTags(s, slide))
+                .sorted(Comparator.comparingLong(s2 -> numberOfCommonTags(s2, slide)))
+                .collect(Collectors.toList());
+    }
 
-        return allSlides.stream().filter(s ->
-                haveCommonTags(s, slide)
-        ).collect(Collectors.toList());
+    // I have more different tags than other
+    public static List<Slide> imMostDifferentFrom(Slide slide, List<Slide> allSlides) {
+        return allSlides.stream().filter(s -> notHaveAnyCommonTags(s, slide))
+                .sorted(Comparator.comparingLong(s2 -> numberOfCommonTags(slide, s2)))
+                .collect(Collectors.toList());
+    }
+
+    private static long numberOfCommonTags(Slide s1, Slide s2) {
+        return s1.tags.stream()
+                .filter(tag -> s1.tags.contains(tag) && s2.tags.contains(tag)).count();
+    }
+
+    // in S1 and not in S2
+    private static long numberOfDifferentTags(Slide s1, Slide s2) {
+        return s1.tags.stream()
+                .filter(tag -> s1.tags.contains(tag) && !s2.tags.contains(tag)).count();
+    }
+
+    private static boolean notHaveAnyCommonTags(Slide s1, Slide s2) {
+        return s1.tags.stream().noneMatch(tag -> s2.tags.contains(tag));
     }
 
     private static boolean haveCommonTags(Slide s1, Slide s2) {

@@ -93,6 +93,10 @@ public class Algorithm {
         return all.stream().sorted(Comparator.comparingInt(s -> interestScore(s, slide))).collect(Collectors.toList());
     }
 
+    public static List<Slide> execute(Slide slide, List<Slide> allSlides) {
+        return execute(slide, allSlides, 100);
+    }
+
 
     //==============================PRIVATE============================================
 

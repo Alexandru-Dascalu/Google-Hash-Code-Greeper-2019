@@ -1,13 +1,14 @@
 import java.util.ArrayList;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 public class Slide {
-    ArrayList<Photo> photos;
+    public ArrayList<Photo> photos;
+    public ArrayList<String> tags;
 
     public Slide(Photo p1) {
         photos = new ArrayList<>();
         photos.add(p1);
+
+        tags = this.getTags();
     }
 
     public Slide(Photo p1, Photo p2) {
@@ -15,7 +16,7 @@ public class Slide {
         photos.add(p2);
     }
 
-    public ArrayList<String> getTags() {
+    private ArrayList<String> getTags() {
         ArrayList<String> result = new ArrayList();
         for (Photo pic : photos){
             result.addAll(pic.tags);

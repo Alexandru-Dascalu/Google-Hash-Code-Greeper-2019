@@ -35,17 +35,18 @@ public class Main {
                         i, tags));
             }
 
-            System.out.println();
-            System.out.println("photooos");
-            System.out.println();
 
-            for (Photo p : photos) {
-                System.out.print(p.ID + " " + p.type + " ");
-                for (String s : p.tags) {
-                    System.out.print(s + " ");
+            // get slides hopefully
+            // write algorithm here
+            ArrayList<Slide> slides = getSlides(photos);
+
+            for(int i=0; i<slides.size(); i++){
+                for(int j=i+1; j<slides.size(); j++){
+
                 }
-                System.out.println();
             }
+
+
 
         }
     }

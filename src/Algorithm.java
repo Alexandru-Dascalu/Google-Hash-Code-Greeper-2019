@@ -25,22 +25,15 @@ public class Algorithm {
         }
 
 
-//        for(int i =0; i< s1.getTags().size(); i++){
-//            s2 contains the s1 tag
-//            if(s2.getTags().indexOf(s1.getTags().get(i)) != -1){
-//                s1
-//            }
-//        }
-
         commonTags.addAll(
-                allTags.stream().filter(tag -> s1.getTags().contains(tag) && s2.getTags().contains(tag)
+                allTags.stream().filter(tag -> s1.tags.contains(tag) && s2.tags.contains(tag)
                 ).collect(Collectors.toList()));
 
         s1NOTs2.addAll(
-                allTags.stream().filter(tag -> s1.getTags().contains(tag) && !s2.getTags().contains(tag)
+                allTags.stream().filter(tag -> s1.tags.contains(tag) && !s2.tags.contains(tag)
                 ).collect(Collectors.toList()));
 
-        s2NOTs1.addAll(allTags.stream().filter(tag -> !s1.getTags().contains(tag) && s2.getTags().contains(tag)
+        s2NOTs1.addAll(allTags.stream().filter(tag -> !s1.tags.contains(tag) && s2.tags.contains(tag)
         ).collect(Collectors.toList()));
 
         //This is the algorithm

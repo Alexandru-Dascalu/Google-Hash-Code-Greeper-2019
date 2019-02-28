@@ -40,13 +40,16 @@ public class Main {
             // write algorithm here
             photos.sort(null);
             ArrayList<Slide> slides = getSlides(photos);
-
-            //ArrayList<Slide> answer = algorithm1(slides);
+            System.out.println("Slides");
+            
+            ArrayList<Slide> answer = algorithm2(slides);
+            System.out.println("After Algorithm");
+            
 
             PrintWriter pw = new PrintWriter(outputFiles[k]);
 
-            pw.println(slides.size());
-            for(Slide s : slides){
+            pw.println(answer.size());
+            for(Slide s : answer){
                 for(Photo p : s.photos){
                     pw.print(p.ID + " ");
                 }
@@ -121,38 +124,32 @@ public class Main {
 
     public static ArrayList<Slide> algorithm2(ArrayList<Slide> slides) {
         ArrayList<Slide> answer = new ArrayList<>();
-
-        Slide currentSlide = slides.get(0);
-        int maxtags = slides.get(0).tags.size();
-
-        // get the slide with most tags to be first
-        for (int i = 1; i < slides.size(); i++) {
-            if (slides.get(i).tags.size() > maxtags) {
-                maxtags = slides.get(i).tags.size();
-                currentSlide = slides.get(i);
-            }
-        }
-
-        answer.add(currentSlide);
-//        slides.remove(currentSlide);
-        currentSlide.alreadyUsed = true;
-
+        
+        answer.add(slides.get(0));
+        slides.get(0).alreadyUsed = true;
+        Slide currentSlide = answer.get(0);
+        int slideIndex = 0;
+        int CHECK_NEXT_NUMBER = 100;
+  
         while (true) {
 
-            if (slides.size() % 1000 == 0) {
-                System.out.println(slides.size());
-            }
+            /*if(answer.size() % 1000 == 0) {
+                System.out.println(answer.size());
+            }*/
 
             Slide next = null;
             boolean found = false;
 
-            for (Slide s : slides) {
-                if (!s.alreadyUsed && Algorithm.interestScore(currentSlide, s) > 0) {
-                    next = s;
+            for(int i=slideIndex; i< Math.min(slides.size(), slideIndex+CHECK_NEXT_NUMBER); i++) {
+                if(!slides.get(i).alreadyUsed && Algorithm.interestScore(currentSlide, slides.get(i)) > 0) {
+                    next = slides.get(i);
                     found = true;
+                    slideIndex = i;
                     break;
                 }
             }
+            
+           
 
             if (!found) {
                 for(Slide s : slides){

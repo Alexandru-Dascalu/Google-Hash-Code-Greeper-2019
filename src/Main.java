@@ -42,8 +42,41 @@ public class Main {
             photos.sort(null);
             ArrayList<Slide> slides = getSlides(photos);
 
-            List<Slide> answer = Algorithm.execute(slides);
+            //List<Slide> answer = algorithm2(slides);
 
+            List<Slide> answer = new ArrayList<>();
+            
+            for(int i=0; i<slides.size(); i++)
+            {
+                int max = Integer.MIN_VALUE;
+                Slide bestSlide = null;
+                
+                if(!slides.get(i).alreadyUsed)
+                {
+                    answer.add(slides.get(i));
+                    for(int j=i+1; j<slides.size(); j++)
+                    {
+                        if(!slides.get(j).alreadyUsed)
+                        {
+                            int score = slides.get(i).getScore(slides.get(j));
+                            
+                            if(max < score)
+                            {
+                                max = score;
+                                bestSlide = slides.get(j);
+                            }
+                        }
+                        
+                    }
+                    
+                    if(bestSlide!=null)
+                    {
+                        bestSlide.alreadyUsed = true;
+                        answer.add(bestSlide);
+                    }
+                }
+                
+            }
             PrintWriter pw = new PrintWriter(outputFiles[k]);
 
             pw.println(answer.size());
@@ -127,7 +160,7 @@ public class Main {
         slides.get(0).alreadyUsed = true;
         Slide currentSlide = answer.get(0);
         int slideIndex = 0;
-        int CHECK_NEXT_NUMBER = 100;
+        int CHECK_NEXT_NUMBER = 2000;
 
         while (true) {
 
@@ -169,7 +202,7 @@ public class Main {
 
         return answer;
     }
-
+    
     public static ArrayList<Slide> algorithm3(ArrayList<Slide> slides) {
        return slides;
     }

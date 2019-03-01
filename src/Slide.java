@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class Slide {
     public ArrayList<Photo> photos;
@@ -28,6 +29,33 @@ public class Slide {
             result.addAll(pic.tags);
         }
         return  result;
+    }
+    
+    public int getScore(Slide after)
+    {
+        int tags1 = this.tags.size();
+        int tags2 = after.tags.size();
+        
+        HashSet<String> one = new HashSet<>();
+        
+        for(String s: this.tags)
+        {
+            one.add(s);
+        }
+        
+        int common = 0;
+        for(String s: after.tags)
+        {
+            if(one.contains(s))
+            {
+                common++;
+            }
+        }
+        
+        int firstWithout = tags1-common;
+        int secondWithout = tags2-common;
+        
+        return Math.min(Math.min(firstWithout, secondWithout), common);
     }
 
 

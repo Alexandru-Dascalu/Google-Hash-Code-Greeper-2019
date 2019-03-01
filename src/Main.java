@@ -41,8 +41,11 @@ public class Main {
             // write algorithm here
             photos.sort(null);
             ArrayList<Slide> slides = getSlides(photos);
+            System.out.println("Slides");
 
             //List<Slide> answer = algorithm2(slides);
+            ArrayList<Slide> answer = algorithm2(slides);
+            System.out.println("Algorithm");
 
             List<Slide> answer = new ArrayList<>();
             
